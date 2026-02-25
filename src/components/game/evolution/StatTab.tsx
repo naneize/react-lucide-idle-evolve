@@ -1,5 +1,5 @@
-
 import { useGameStore } from '../../../store/useGameStore';
+import { formatNumber } from '../../../utils/format';
 import {
     calculateFinalAtk,
     calculateASPDMultiplier,
@@ -149,12 +149,10 @@ export function StatTab({ nodes, player, equipment, unlockNode }: StatTabProps) 
 
                             <div className={`w-full py-2.5 rounded-xl text-center transition-all ${canAfford ? `bg-${themeColor}-500 text-white shadow-lg` : 'bg-slate-100 text-slate-400'
                                 }`}>
-                                <span className="text-xs font-black tracking-tight">{cost.toLocaleString()} <span className="text-[8px]">MANA</span></span>
+                                <span className="text-xs font-black tracking-tight">{formatNumber(cost)} <span className="text-[8px]">MANA</span></span>
                             </div>
                         </div>
                     );
-
-
                 })}
             </div>
         </div>

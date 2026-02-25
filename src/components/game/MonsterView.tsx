@@ -1,6 +1,7 @@
 import { useGameStore } from '../../store/useGameStore'
 import { getMonsterEvolution } from '../../data/monsterEvolution'
 import { calculateManaPerHit, calculateManaOnKill } from '../../utils/gameCalculators'
+import { formatNumber } from '../../utils/format';
 import React, { useEffect, useRef } from 'react'
 
 // ✅ กำหนด Type สำหรับตัวเลขดาเมจ
@@ -245,7 +246,7 @@ export function MonsterView() {
                     <div className="flex-1 bg-gradient-to-r from-sky-400/20 to-sky-400/10 border border-sky-200 rounded-xl p-2.5 flex flex-col items-center justify-center">
                         <span className="text-[8px] font-black text-sky-500 uppercase tracking-widest mb-1">Per Hit</span>
                         <span className="text-sm font-black text-slate-700 leading-none">
-                            {calculateManaPerHit(monster.level, equipment, player.luk, passives).toLocaleString()}
+                            {formatNumber(calculateManaPerHit(monster.level, equipment, player.luk, passives))}
                         </span>
                         <span className="text-[7px] text-slate-500 mt-0.5 opacity-50">MANA FLOW</span>
                     </div>
@@ -253,7 +254,7 @@ export function MonsterView() {
                     <div className="flex-1 bg-gradient-to-r from-amber-400/20 to-amber-400/10 border border-amber-200 rounded-xl p-2.5 flex flex-col items-center justify-center">
                         <span className="text-[8px] font-black text-amber-600 uppercase tracking-widest mb-1">On Kill</span>
                         <span className="text-sm font-black text-slate-700 leading-none">
-                            {calculateManaOnKill(monster.level, equipment, player.luk, passives).toLocaleString()}
+                            {formatNumber(calculateManaOnKill(monster.level, equipment, player.luk, passives))}
                         </span>
                         <span className="text-[7px] text-slate-500 mt-0.5 opacity-50">CORE ESSENCE</span>
                     </div>

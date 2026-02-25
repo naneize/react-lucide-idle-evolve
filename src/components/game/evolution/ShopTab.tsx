@@ -2,6 +2,7 @@
 
 import type { EquipmentId, EquipmentState } from '../../../types/equipment';
 import { calculateEquipmentCost } from '../../../utils/gameCalculators';
+import { formatNumber } from '../../../utils/format';
 
 interface ShopTabProps {
     equipment: EquipmentState;
@@ -73,7 +74,7 @@ export function ShopTab({ equipment, soulShards, buyEquipment }: ShopTabProps) {
                                         ? 'bg-indigo-600 text-white border-white shadow-indigo-200 scale-105'
                                         : 'bg-slate-300 text-slate-500 border-slate-200'
                                         }`}>
-                                        <span>{cost.toLocaleString()}</span>
+                                        <span>{formatNumber(cost)}</span>
                                         <span className="text-[10px]">💎</span>
                                     </div>
                                 </button>

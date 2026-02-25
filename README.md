@@ -1,29 +1,41 @@
-# React + TypeScript + Vite
+# React + TypeScript + Medieval Quest - Incremental RPG
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mobile-first responsive Incremental RPG built with React, TypeScript, Tailwind CSS 4.0, and Zustand. Features a medieval fantasy theme with parchment backgrounds, gold borders, and immersive gameplay mechanics.
 
-Currently, two official plugins are available:
+## 🎮 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Core Gameplay
+- **Incremental Battle System**: Auto-attack and manual attack mechanics
+- **Stat System**: STR, AGI, VIT, DEX stats using Decimal.js for precision
+- **Stamina System**: Auto-regenerating stamina for special attacks
+- **Experience & Leveling**: Progressive character development
+- **Monster Progression**: Dynamic monster spawning with increasing difficulty
 
-## React Compiler
+### Visual Design
+- **Medieval Theme**: Parchment backgrounds with gold borders
+- **Mobile-First**: Bottom navigation on mobile, card layout on desktop
+- **Micro-interactions**: Framer Motion animations for button presses and floating numbers
+- **Responsive Design**: Seamless experience across all devices
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Skill Tree System
+- **Diamond-Shaped Nodes**: Visual skill tree with ancient map aesthetics
+- **Progressive Unlocking**: Requirements-based skill acquisition
+- **Stat Bonuses**: Each skill provides meaningful stat improvements
+- **Ultimate Abilities**: Special powers for advanced builds
 
-## Expanding the ESLint configuration
+### Technical Features
+- **Decimal.js Integration**: Precise mathematical calculations for large numbers
+- **Zustand State Management**: Efficient and scalable state handling
+- **TypeScript**: Full type safety and developer experience
+- **Tailwind CSS 4.0**: Modern utility-first styling
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-      // Remove tseslint.configs.recommended and replace with this
+### Installation
       tseslint.configs.recommendedTypeChecked,
       // Alternatively, use this for stricter rules
       tseslint.configs.strictTypeChecked,

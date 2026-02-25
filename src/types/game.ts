@@ -1,99 +1,92 @@
-import type { EquipmentId, EquipmentState } from './equipment';
+import Decimal from 'decimal.js';
 
 export interface CharacterStats {
-    str: number;
-    agi: number;
-    dex: number;
-    luk: number;
-    hp: number;
-    maxHp: number;
-    mp: number; // เพิ่มไว้เผื่อระบบ Skill ในอนาคต
-    maxMp: number;
-    atk: number;
-    attackSpeed: number;
-    critRate: number;    // % โอกาสติดคริ
-    critDamage: number;  // % ความแรงคริ
-    essence: number;
-    level: number;
+  str: Decimal;      // Strength - Physical damage
+  agi: Decimal;      // Agility - Attack speed & dodge
+  vit: Decimal;      // Vitality - HP & defense
+  dex: Decimal;      // Dexterity - Critical hit & accuracy
+  hp: Decimal;       // Current Health Points
+  maxHp: Decimal;    // Maximum Health Points
+  stamina: Decimal;  // Current Stamina
+  maxStamina: Decimal; // Maximum Stamina
+  level: number;     // Character level
+  exp: Decimal;      // Current Experience
+  expToNext: Decimal; // Experience needed for next level
 }
 
 export interface SkillNode {
-    id: string;
-    name: string;
-    description: string;
-    // ✨ ปรับปรุง Type ให้ตรงกับโหนด 4 สายที่เรามีจริง
-    type: 'STR' | 'AGI' | 'DEX' | 'LUK' | 'ULTIMATE';
-    value: number;        // ค่าพื้นฐานที่ใช้คำนวณ Scaling
-    cost: number;         // Base Cost
-    level: number;        // เลเวลปัจจุบันของโหนด
-    isUnlocked: boolean;
-    requiredNodes: string[];
-}
-
-export interface MonsterData {
-    name: string;
-    hp: number;
-    maxHp: number;
-    level: number;
-    rewardEssence: number;
-    stage: number;
-    passive?: 'NONE' | 'HARD_SKIN' | 'REFLECT' | 'DODGE' | 'REGEN' | string;
-}
-
-export interface PassiveSkill {
-    level: number;
-    essence: number;
-    requiredEssence: number;
+  id: string;
+  name: string;
+  description: string;
+  desc: string; // Short description for UI
+  icon: string;
+  type: 'str' | 'agi' | 'vit' | 'dex' | 'ultimate';
+  level: number;
+  maxLevel: number;
+  cost: Decimal;
+  requirements: string[];
+  position: { x: number; y: number };
+  isUnlocked: boolean;
+  effects: {
+    str?: Decimal;
+    agi?: Decimal;
+    vit?: Decimal;
+    dex?: Decimal;
+    special?: string;
+  };
 }
 
 export interface GameState {
-    player: CharacterStats;
-    monster: MonsterData;
+  // Player Stats
+  player: CharacterStats;
 
-    battleTimer: number;
-    maxBattleTime: number;
+  // Game State
+  isGameRunning: boolean;
+  currentTab: 'training' | 'skills' | 'stats';
+  lastUpdate: number;
 
-    damageBuffer: number;
+  // Training System
+  trainingTimer: number;
+  autoTrainingTimer: number;
+  trainingProgress: Decimal;
+  currentTraining: 'str' | 'agi' | 'vit' | 'dex';
 
-    soulShards: number;
-    equipment: EquipmentState;
-    buyEquipment: (equipId: EquipmentId) => void;
+  // Skill Tree
+  skillNodes: Record<string, SkillNode>;
+  totalSkillPoints: number;
+  availableSkillPoints: number;
 
-    missTrigger: number;
-
-    nodes: Record<string, SkillNode>;
-    battleLog: string[];
-    isGameRunning: boolean;
-    playerAttackTimer: number;
-    regenTimer: number;
-    totalEssenceEarned: number;
-    totalMonstersKilled: number;
-
-    // Infinite Passives System
-    passives: {
-        attack: PassiveSkill;
-        mana: PassiveSkill;
-        speed: PassiveSkill;
-        critRate: PassiveSkill;
-        critDamage: PassiveSkill;
-        luck: PassiveSkill;
-    };
-    addPassiveEssence: (type: keyof GameState['passives'], amount: number) => void;
+  // UI State
+  floatingNumbers: FloatingNumber[];
+  selectedNode: SkillNode | null;
+  animations: AnimationState;
 }
 
-export interface GameActions {
-    // 🕹️ System Actions
-    startGame: () => void;
-    stopGame: () => void;
-    resetGame: () => void;
-    addBattleLog: (message: string) => void;
-
-    // ⚔️ Combat Actions
-    playerAttack: (isManual?: boolean) => void;
-    manualAttack: () => void;
-
-    // 🌳 Evolution Actions
-    unlockNode: (nodeId: string) => void;
+export interface FloatingNumber {
+  id: string;
+  value: string;
+  type: 'damage' | 'exp' | 'gold' | 'heal' | 'stat';
+  x: number;
+  y: number;
+  timestamp: number;
 }
 
-export type GameStore = GameState & GameActions;
+export interface AnimationState {
+  buttonPress: Record<string, boolean>;
+  screenShake: number;
+}
+
+export type GameStore = GameState & {
+  // Actions
+  startGame: () => void;
+  stopGame: () => void;
+  train: (stat: 'str' | 'agi' | 'vit' | 'dex', isManual?: boolean) => void;
+  setCurrentTraining: (stat: 'str' | 'agi' | 'vit' | 'dex') => void;
+  gainExp: (amount: Decimal) => void;
+  levelUp: () => void;
+  unlockSkillNode: (nodeId: string) => void;
+  addFloatingNumber: (value: string, type: FloatingNumber['type'], x: number, y: number) => void;
+  switchTab: (tab: GameState['currentTab']) => void;
+  updateButtonPress: (buttonId: string, isPressed: boolean) => void;
+  setSelectedNode: (node: SkillNode | null) => void;
+};
